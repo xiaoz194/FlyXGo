@@ -1,0 +1,5 @@
+service:
+  AppMode: "release" # release | debug ｜ test
+  HttpPort: "80"
+  Version: "v1"
+
