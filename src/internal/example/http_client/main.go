@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/xiaoz194/GoFlux/src/internal/example/http_client/simple_demo"
-	"github.com/xiaoz194/GoFlux/src/pkg/utils/logutil"
+	"github.com/xiaoz194/FlyXGo/src/internal/example/http_client/simple_demo"
+	"github.com/xiaoz194/FlyXGo/src/pkg/utils/logutil"
 )
 
 func main() {

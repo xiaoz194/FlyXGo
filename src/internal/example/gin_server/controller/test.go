@@ -2,10 +2,10 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/xiaoz194/GoFlux/src/internal/example/gin_server/beans"
-	"github.com/xiaoz194/GoFlux/src/internal/example/gin_server/serializer"
-	"github.com/xiaoz194/GoFlux/src/pkg/e/constant"
-	"github.com/xiaoz194/GoFlux/src/pkg/utils/logutil"
+	"github.com/xiaoz194/FlyXGo/src/internal/example/gin_server/beans"
+	"github.com/xiaoz194/FlyXGo/src/internal/example/gin_server/serializer"
+	"github.com/xiaoz194/FlyXGo/src/pkg/e/constant"
+	"github.com/xiaoz194/FlyXGo/src/pkg/utils/logutil"
 	"net/http"
 )
 

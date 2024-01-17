@@ -1,7 +1,7 @@
 package dbutil
 
 import (
-	"github.com/xiaoz194/GoFlux/src/pkg/utils/logutil"
+	"github.com/xiaoz194/FlyXGo/src/pkg/utils/logutil"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

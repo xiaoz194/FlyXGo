@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/spf13/viper"
-	"github.com/xiaoz194/GoFlux/src/pkg/utils/logutil"
+	"github.com/xiaoz194/FlyXGo/src/pkg/utils/logutil"
 )
 
 var (

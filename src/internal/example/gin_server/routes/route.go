@@ -2,8 +2,8 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/xiaoz194/GoFlux/src/internal/example/gin_server/controller"
-	"github.com/xiaoz194/GoFlux/src/internal/example/gin_server/middleware"
+	"github.com/xiaoz194/FlyXGo/src/internal/example/gin_server/controller"
+	"github.com/xiaoz194/FlyXGo/src/internal/example/gin_server/middleware"
 )
 
 func NewRouter() *gin.Engine {

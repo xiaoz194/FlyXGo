@@ -3,8 +3,8 @@ package simple_demo
 import (
 	"context"
 	"fmt"
-	"github.com/xiaoz194/GoFlux/src/internal/core/http"
-	"github.com/xiaoz194/GoFlux/src/pkg/utils/logutil"
+	"github.com/xiaoz194/FlyXGo/src/internal/core/http"
+	"github.com/xiaoz194/FlyXGo/src/pkg/utils/logutil"
 	"time"
 )
 

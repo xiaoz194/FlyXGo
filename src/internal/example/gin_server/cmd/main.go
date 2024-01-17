@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"github.com/xiaoz194/GoFlux/src/internal/example/gin_server/config"
-	"github.com/xiaoz194/GoFlux/src/internal/example/gin_server/routes"
-	"github.com/xiaoz194/GoFlux/src/pkg/utils/dbutil"
-	"github.com/xiaoz194/GoFlux/src/pkg/utils/logutil"
+	"github.com/xiaoz194/FlyXGo/src/internal/example/gin_server/config"
+	"github.com/xiaoz194/FlyXGo/src/internal/example/gin_server/routes"
+	"github.com/xiaoz194/FlyXGo/src/pkg/utils/dbutil"
+	"github.com/xiaoz194/FlyXGo/src/pkg/utils/logutil"
 	"net/http"
 	"os"
 	"os/signal"
