@@ -10,7 +10,7 @@ import (
 )
 
 type ExampleHttpClient struct {
-	BaseClient *http_client.BaseClient
+	BaseClient *http_client.FlyXHttpClient
 }
 
 // NewExampleHttpClient
@@ -20,7 +20,7 @@ func NewExampleHttpClient(uid int64) *ExampleHttpClient {
 		"test_post": {Method: "POST", Path: fmt.Sprintf("%s/api/v1/test_post/uid/%d", config.ExampleHttpRequestUrlPrefix, uid)},
 	}
 	return &ExampleHttpClient{
-		&http_client.BaseClient{
+		&http_client.FlyXHttpClient{
 			HttpClient: http_client.NewHTTPClient(),
 			Apis:       Apis,
 		},
