@@ -1,9 +1,14 @@
 package main
 
 import (
+	"github.com/xiaoz194/FlyXGo/src/internal/example/http_client/config"
 	"github.com/xiaoz194/FlyXGo/src/internal/example/http_client/simple_demo"
 	"github.com/xiaoz194/FlyXGo/src/pkg/utils/logutil"
 )
+
+func init() {
+	config.InitConfig()
+}
 
 func main() {
 	var uid int64

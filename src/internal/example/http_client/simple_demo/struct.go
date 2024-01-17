@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/xiaoz194/FlyXGo/src/internal/core/http"
+	"github.com/xiaoz194/FlyXGo/src/internal/example/http_client/config"
 	"github.com/xiaoz194/FlyXGo/src/pkg/utils/logutil"
 	"time"
 )
@@ -12,13 +13,11 @@ type ExampleHttpClient struct {
 	BaseClient *http_client.BaseClient
 }
 
-var ExampleHttpRequestUrlPrefix = "http://localhost"
-
 // NewExampleHttpClient
 func NewExampleHttpClient(uid int64) *ExampleHttpClient {
 	Apis := map[string]http_client.ApiDef{
-		"test_get":  {Method: "GET", Path: fmt.Sprintf("%s/api/v1/test_get/uid/%d", ExampleHttpRequestUrlPrefix, uid)},
-		"test_post": {Method: "POST", Path: fmt.Sprintf("%s/api/v1/test_post/uid/%d", ExampleHttpRequestUrlPrefix, uid)},
+		"test_get":  {Method: "GET", Path: fmt.Sprintf("%s/api/v1/test_get/uid/%d", config.ExampleHttpRequestUrlPrefix, uid)},
+		"test_post": {Method: "POST", Path: fmt.Sprintf("%s/api/v1/test_post/uid/%d", config.ExampleHttpRequestUrlPrefix, uid)},
 	}
 	return &ExampleHttpClient{
 		&http_client.BaseClient{

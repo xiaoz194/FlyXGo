@@ -1,5 +1,8 @@
-service:
+ginServer:
   AppMode: "release" # release | debug ｜ test
   HttpPort: "80"
   Version: "v1"
 
+httpClientServer:
+  ExampleHttpRequestUrlPrefix: "http://localhost"
+  
