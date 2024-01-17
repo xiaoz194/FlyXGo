@@ -6,9 +6,11 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"github.com/xiaoz194/FlyXGo/src/internal/example/http_client/config"
 	"github.com/xiaoz194/FlyXGo/src/pkg/utils/logutil"
 	"io"
 	"net/http"
+	"time"
 )
 
 type ApiDef struct {
@@ -17,12 +19,25 @@ type ApiDef struct {
 }
 
 type HttpClient struct {
+	Client  *http.Client
 	Headers map[string]string
 }
 
 // NewHTTPClient 的构造函数
 func NewHTTPClient() *HttpClient {
+	// 创建支持 TLS 的客户端
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{
+			InsecureSkipVerify: config.InsecureSkipVerify, // 是否跳过证书验证，true 跳过，不推荐在生产环境中使用 false不跳过
+		},
+		Proxy:                 http.ProxyFromEnvironment, // 使用系统代理
+		MaxIdleConns:          config.MaxIdleConns,
+		IdleConnTimeout:       config.IdleConnTimeout * time.Second,
+		ResponseHeaderTimeout: config.ResponseHeaderTimeout * time.Second,
+	}
+	client := &http.Client{Transport: tr}
 	return &HttpClient{
+		Client:  client,
 		Headers: make(map[string]string),
 	}
 }

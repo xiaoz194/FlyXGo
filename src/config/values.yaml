@@ -1,8 +1,17 @@
 ginServer:
+  # gin框架的mode，有release，debug，test三种
   AppMode: "release" # release | debug ｜ test
   HttpPort: "80"
   Version: "v1"
 
 httpClientServer:
+  # 请求url的域名前缀
   ExampleHttpRequestUrlPrefix: "http://localhost"
-  
+  # http请求是否跳过证书校验
+  InsecureSkipVerify: true
+  # 连接池中最大的空闲连接数
+  MaxIdleConns: 20
+  # 空闲连接在连接池中保持打开的最大时间
+  IdleConnTimeout: 20
+  # 等待服务器响应的超时时间
+  ResponseHeaderTimeout: 20
