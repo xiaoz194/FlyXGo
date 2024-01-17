@@ -80,20 +80,6 @@ FlyXHttpClient开放一个统一接口FlyXHttpClient.RetryApi供用户调用，�
 ``` golang
 // RetryApiOptions 创建一个结构体 来封装所有的参数
 /**
-参数说明：
-	arg1 mode string 调用哪一个api  必传 NORMAL 通用模式，api接口  post_path  专门设置的post接口,用于直接传path的场景  postBody 传body数据流请求的post接口
-	arg2 apisName string 请求的apis名称，除了 UNIQUE_PATH 模式外，均传此方法（目前是这样，不排除后续会有单独的"get"等模式） 因为这里需要通过通过ApiDef拿路径和请求方式  这里不传则置 ""
-	arg3 path string 路径，如果是"post"模式，需要传path 因为它不通过ApiDef拿路径  这里不传则置 ""
-	arg4 method string 请求方法，如果是"post"模式，需要传method 因为它不通过ApiDef拿路径  这里不传则置 ""
-	arg5 jsonData map[string]interface{} 传递数据  这里不传则置 nil ,
-	arg6 headers map[string]string 传递headers  这里不传则置 nil
-	arg7 kwargs map[string]interface{} 额外的需要拼接到url的查询参数  这里不传则置 nil
-	arg8 body *bytes.Buffer 有些地方不能传jsonData map[string]interface{} 只能通过body传递，这里不传则置 nil
-	arg9 ctx 上下文，可以传递http请求超时时间等上下文信息，主要用来传递超时时间信息
-	arg10 retryMax 失败重试最大次数 一般设置3次
-	arg11 retryTimeout 失败后重试间歇时间 避免瞬间重试和减轻服务压力 一般设置5-10s 也可以结合其他策略，比如指数退避
-**/
-
 type RetryApiOptions struct {
 	Mode         int
 	ApisName     string
@@ -108,6 +94,31 @@ type RetryApiOptions struct {
 	RetryTimeout time.Duration
 }
 ```
+
+参数说明：
+arg1 mode string 调用哪一个api  必传 NORMAL 通用模式，api接口  post_path  专门设置的post接口,用于直接传path的场景  postBody 传body数据流请求的post接口
+
+arg2 apisName string 请求的apis名称，除了 UNIQUE_PATH 模式外，均传此方法（目前是这样，不排除后续会有单独的"get"等模式） 因为这里需要通过通过ApiDef拿路径和请求方式  这里不传则置 ""
+
+arg3 path string 路径，如果是"post"模式，需要传path 因为它不通过ApiDef拿路径  这里不传则置 ""
+
+arg4 method string 请求方法，如果是"post"模式，需要传method 因为它不通过ApiDef拿路径  这里不传则置 ""
+
+arg5 jsonData map[string]interface{} 传递数据  这里不传则置 nil 
+
+arg6 headers map[string]string 传递headers  这里不传则置 nil
+
+arg7 kwargs map[string]interface{} 额外的需要拼接到url的查询参数  这里不传则置 nil
+
+arg8 body *bytes.Buffer 有些地方不能传jsonData map[string]interface{} 只能通过body传递，这里不传则置 nil
+
+arg9 ctx 上下文，可以传递http请求超时时间等上下文信息，主要用来传递超时时间信息
+
+arg10 retryMax 失败重试最大次数 一般设置3次
+
+arg11 retryTimeout 失败后重试间歇时间 避免瞬间重试和减轻服务压力 一般设置5-10s 也可以结合其他策略，比如指数退避
+
+
 FlyXHttpClient.RetryApi接口提供三种模式调用，如下所示：
 ``` golang
 const (
@@ -116,25 +127,24 @@ const (
 	POSTBODY
 )
 ```
-其中， NORMAL模式最常用，用户只需要定义ApiDefs，根据ApiDefs定义的name请求对应的接口
+其中， NORMAL模式最常用，用户只需要定义ApiDefs，根据ApiDefs定义的name请求对应的接口。
 ``` golang
 resp, err = flyXHttpClient.api(options.ApisName, options.JsonData, options.Headers, options.Kwargs, options.Ctx)
 ```
-UNIQUE_PATH 比较特殊，它不遵守本框架的Client定义方式，为了兼容没有继承FlyXHttpClient的客户端请求，该模式下，用户常规的传递请求Method和URL(Path)
+UNIQUE_PATH 比较特殊，它不遵守本框架的Client定义方式，为了兼容没有继承FlyXHttpClient的客户端请求，该模式下，用户常规的传递请求Method和URL(Path)。
 ``` golang
 resp, err = flyXHttpClient.unique(options.Method, options.Path, options.JsonData, options.Headers, options.Kwargs, options.Ctx)
 ```
-POSTBODY 用于传递字节流的特殊场景
+POSTBODY 用于传递字节流的特殊场景。
 ``` golang
 resp, err = flyXHttpClient.apiPassByBody(options.ApisName, options.Body, options.Headers, options.Ctx)
 ```
-注意 上述接口均为内部调用，外部统一走FlyXHttpClient.RetryApi接口
-
-具体逻辑可自行阅读代码，有疑问或者有改进的地方欢迎pr共同建设。
+注意：上述接口均为内部调用，外部统一走FlyXHttpClient.RetryApi接口。 具体逻辑可自行阅读代码，有疑问或者有改进的地方欢迎pr共同建设。
 
 #### 1.2 使用
 
 ##### 步骤1 创建一个你的客户端 继承FlyXHttpClient
+
 ``` golang
 type ExampleHttpClient struct {
 	FlyXHttpClient *http_client.FlyXHttpClient
@@ -156,6 +166,7 @@ func NewExampleHttpClient(uid int64) *ExampleHttpClient {
 ```
 
 ##### 步骤2 实现每一个你定义的接口的具体逻辑
+
 ``` golang
 func (exampleHttpClient *ExampleHttpClient) TestGet() (map[string]interface{}, error) {
 	kwargs := map[string]interface{}{
@@ -305,12 +316,11 @@ func (exampleHttpClient *ExampleHttpClient) TestPost() (map[string]interface{}, 
 上面代码只个出了最基础的示例，一些更复杂的场景，如权限点校验等会在后续提供案例。
 
 ##### 步骤3 创建你的自定义Client 并调用请求
+
 简单示例：
-```shell
-    var uid int64
-	uid = 1
+
+``` golang
 	exampleClient := simple_demo.NewExampleHttpClient(uid)
-	// ==================== test get =========================
 	resp, err := exampleClient.TestGet()
 	if err != nil {
 		logutil.LogrusObj.Fatal(err)
