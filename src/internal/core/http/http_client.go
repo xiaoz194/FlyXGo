@@ -58,17 +58,9 @@ func (c *HttpClient) DoRequest(method string, path string, jsonData map[string]i
 	var req *http.Request
 	var err error
 	var resp *http.Response
-	// 创建支持 TLS 的客户端
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{
-			InsecureSkipVerify: true, // 跳过证书验证，不推荐在生产环境中使用
-		},
-	}
-	client := &http.Client{Transport: tr}
-
 	// 传入的数据是bodyData 走该分支逻辑
 	if bodyData != nil {
-		return c.do(req, resp, err, client, method, path, bodyData, headers, ctx)
+		return c.do(req, resp, err, c.Client, method, path, bodyData, headers, ctx)
 	} else if jsonData != nil { // 如果传入的数据是jsonData(map)，走下面分支
 		body, err = json.Marshal(jsonData)
 		if err != nil {
@@ -80,9 +72,9 @@ func (c *HttpClient) DoRequest(method string, path string, jsonData map[string]i
 		for k, v := range headers {
 			c.Headers[k] = v
 		}
-		return c.do(req, resp, err, client, method, path, bytes.NewBuffer(body), c.Headers, ctx)
+		return c.do(req, resp, err, c.Client, method, path, bytes.NewBuffer(body), c.Headers, ctx)
 	} else {
-		return c.do(req, resp, err, client, method, path, bytes.NewBuffer(body), c.Headers, ctx)
+		return c.do(req, resp, err, c.Client, method, path, bytes.NewBuffer(body), c.Headers, ctx)
 	}
 }
 
