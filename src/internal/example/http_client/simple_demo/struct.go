@@ -10,7 +10,7 @@ import (
 )
 
 type ExampleHttpClient struct {
-	BaseClient *http_client.FlyXHttpClient
+	FlyXHttpClient *http_client.FlyXHttpClient
 }
 
 // NewExampleHttpClient
@@ -47,20 +47,20 @@ func (exampleHttpClient *ExampleHttpClient) TestGet() (map[string]interface{}, e
 		RetryMax:     3,
 		RetryTimeout: 5 * time.Second,
 	}
-	resp, err := exampleHttpClient.BaseClient.RetryApi(options)
+	resp, err := exampleHttpClient.FlyXHttpClient.RetryApi(options)
 	if err != nil {
 		logutil.LogrusObj.Error("Api请求出错！错误信息：", err.Error())
 		return nil, err
 	}
-	if exampleHttpClient.BaseClient.HttpClient.CheckResponseIsOk(resp) {
-		data, err := exampleHttpClient.BaseClient.HttpClient.GetJsonData(resp)
+	if exampleHttpClient.FlyXHttpClient.HttpClient.CheckResponseIsOk(resp) {
+		data, err := exampleHttpClient.FlyXHttpClient.HttpClient.GetJsonData(resp)
 		if err != nil {
 			logutil.LogrusObj.Error("GetJsonData数据解析函数出错！错误信息：", err.Error())
 			return nil, err
 		}
 		return data, nil
 	} else {
-		errMsg, err := exampleHttpClient.BaseClient.HttpClient.ThrowErrorMsg(resp)
+		errMsg, err := exampleHttpClient.FlyXHttpClient.HttpClient.ThrowErrorMsg(resp)
 		if err != nil {
 			return nil, err
 		}
@@ -95,20 +95,20 @@ func (exampleHttpClient *ExampleHttpClient) TestPost() (map[string]interface{}, 
 		RetryTimeout: 5 * time.Second,
 	}
 
-	resp, err := exampleHttpClient.BaseClient.RetryApi(options)
+	resp, err := exampleHttpClient.FlyXHttpClient.RetryApi(options)
 	if err != nil {
 		logutil.LogrusObj.Error("Api请求出错！错误信息：", err.Error())
 		return nil, err
 	}
-	if exampleHttpClient.BaseClient.HttpClient.CheckResponseIsOk(resp) {
-		data, err := exampleHttpClient.BaseClient.HttpClient.GetJsonData(resp)
+	if exampleHttpClient.FlyXHttpClient.HttpClient.CheckResponseIsOk(resp) {
+		data, err := exampleHttpClient.FlyXHttpClient.HttpClient.GetJsonData(resp)
 		if err != nil {
 			logutil.LogrusObj.Error("GetJsonData数据解析函数出错！错误信息：", err.Error())
 			return nil, err
 		}
 		return data, nil
 	} else {
-		errMsg, err := exampleHttpClient.BaseClient.HttpClient.ThrowErrorMsg(resp)
+		errMsg, err := exampleHttpClient.FlyXHttpClient.HttpClient.ThrowErrorMsg(resp)
 		if err != nil {
 			return nil, err
 		}
