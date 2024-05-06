@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/xiaoz194/FlyXGo/src/pkg/utils/logutil"
 	"net/http"
-	"sync"
 	"time"
 )
 
@@ -27,39 +26,21 @@ RetryApi 带重试机制的Api方法 外部均调用此方法!!
 func (flyXHttpClient *FlyXHttpClient) RetryApi(options RetryApiOptions) (*http.Response, error) {
 	var resp *http.Response
 	var err error
-	var wg sync.WaitGroup
-	var resultChan = make(chan error)
-	//执行重试
-	for i := 0; i < options.RetryMax; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			switch options.Mode {
-			case NORMAL:
-				logutil.LogrusObj.Infof("json data is: %v", options.JsonData)
-				resp, err = flyXHttpClient.api(options.ApisName, options.JsonData, options.Headers, options.Kwargs, options.Ctx)
-			case UNIQUE_PATH:
-				resp, err = flyXHttpClient.unique(options.Method, options.Path, options.JsonData, options.Headers, options.Kwargs, options.Ctx)
-			case POSTBODY:
-				resp, err = flyXHttpClient.apiPassByBody(options.ApisName, options.Body, options.Headers, options.Ctx)
-			}
-
-			if err == nil {
-				resultChan <- nil
-			} else {
-				logutil.LogrusObj.Info("retry: ", i, " err: ", err.Error())
-				time.Sleep(options.RetryTimeout)
-				resultChan <- err
-			}
-		}()
-		select {
-		case err = <-resultChan:
-			if err == nil {
-				wg.Wait()
-				return resp, nil
-			}
-		case <-time.After(options.RetryTimeout):
-			// ignore timeout
+	for i := 1; i <= options.RetryMax; i++ {
+		switch options.Mode {
+		case NORMAL:
+			resp, err = flyXHttpClient.api(options.ApisName, options.JsonData, options.Headers, options.Kwargs, options.Ctx)
+		case UNIQUE_PATH:
+			resp, err = flyXHttpClient.unique(options.Method, options.Path, options.JsonData, options.Headers, options.Kwargs, options.Ctx)
+		case POSTBODY:
+			resp, err = flyXHttpClient.apiPassByBody(options.ApisName, options.Body, options.Headers, options.Ctx)
+		}
+		logutil.LogrusObj.Info("resp:", resp)
+		if err == nil {
+			return resp, nil
+		} else {
+			logutil.LogrusObj.Info("retry: ", i, " err: ", err.Error())
+			time.Sleep(options.RetryTimeout)
 		}
 	}
 	return nil, err
