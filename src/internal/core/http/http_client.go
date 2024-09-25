@@ -74,6 +74,9 @@ func (c *HttpClient) DoRequest(method string, path string, jsonData map[string]i
 		}
 		return c.do(req, resp, err, c.Client, method, path, bytes.NewBuffer(body), c.Headers, ctx)
 	} else {
+		for k, v := range headers {
+			c.Headers[k] = v
+		}
 		return c.do(req, resp, err, c.Client, method, path, bytes.NewBuffer(body), c.Headers, ctx)
 	}
 }
